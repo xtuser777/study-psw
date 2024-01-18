@@ -53,10 +53,11 @@ def login(request):
         senha = request.POST.get('senha')
 
         user = auth.authenticate(request, username=username, password=senha)
+        print(user)
         if user:
             auth.login(request, user)
             messages.add_message(request, constants.SUCCESS, 'Logado!')
-            return redirect('/flashcard/novo_flashcard/')
+            return redirect('/flashcard/new_flashcard/')
         else:
             messages.add_message(
                 request, constants.ERROR, 'Username ou senha inválidos'

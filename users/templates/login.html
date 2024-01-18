@@ -44,7 +44,7 @@
                                 </section>
                             {% endfor %}
                         {% endif %}
-                        <form action="" method="">
+                        <form action="" method="POST">{% csrf_token %}
                             <label>Username</label>
                             <input type="text" class="input-form" name="username" id="">
                             <br>
