@@ -8,4 +8,5 @@ urlpatterns = [
     path('list_challenges/', views.list_challenges, name='list_challenges'),
     path('challenge/<int:id>/', views.challenge, name='challenge'),
     path('answer_flashcard/<int:id>/', views.answer_flashcard, name='answer_flashcard'),
+    path('report/<int:id>/', views.report, name='report'),
 ]

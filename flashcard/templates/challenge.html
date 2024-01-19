@@ -69,7 +69,7 @@
                 <p class="fonte-p">Erros: {{errors}}</p>
                 <p class="fonte-p">Faltantes: {{missing}}</p>
                 <br>
-                <a class="btn-cadastro btn-desafio" href="">Relatório detalhado</a>
+                <a class="btn-cadastro btn-desafio" href="{% url 'report' challenge.id %}">Relatório detalhado</a>
             </div>
         </div>
 

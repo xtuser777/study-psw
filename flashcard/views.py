@@ -160,3 +160,20 @@ def answer_flashcard(request, id):
     flashcard_challenge.right = True if right == '1' else False
     flashcard_challenge.save()
     return redirect(f'/flashcard/challenge/{challenge_id}/')
+
+def report(request, id):
+    challenge = Challenge.objects.get(id=id)
+
+    rights = challenge.flashcards.filter(right=True).count()
+    errors = challenge.flashcards.filter(right=False).count()
+
+    data = [rights, errors]
+
+    categories = challenge.category.all()
+    name_category = [i.name for i in categories]
+
+    data_categories = []
+    for category in categories:
+        data_categories.append(challenge.flashcards.filter(flashcard__category=category).filter(right=True).count())
+
+    return render(request, 'report.html', {'challenge': challenge, 'data': data, 'categories': name_category, 'data_categories': data_categories,},)
