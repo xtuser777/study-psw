@@ -18,23 +18,35 @@
         <br>
         <br>
         <div class="row">
-            <div class="col-md">
-                <label for="">Categoria</label>
-                <select name="categoria" class="form-select">
-                   
-                </select>
-            </div>
-            <div class="col-md">
-                <label for="">Dificuldade</label>
-                <select name="dificuldade" class="form-select">
-                    
-                </select>
-            </div>
-            <div class="col-md">
-                <br>
-                <input type="submit" value="Filtrar" class="btn-cadastro">
-                </form>
-            </div>
+            <form action="{% url 'list_challenges' %}" method="GET">
+                <div class="col-md">
+                    <label for="">Categoria</label>
+                    <select name="categoria" class="form-select">
+                        <option value="0">Todas</option>
+                        {% for category in categories %}
+                            <option value="{{category.id}}">
+                                {{category.name}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label for="">Dificuldade</label>
+                    <select name="dificuldade" class="form-select">
+                        <option value="0">Todas</option>
+                        {% for dificulty in dificulties %}
+                            <option value="{{dificulty.0}}">
+                                {{dificulty.1}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md">
+                    <br>
+                    <input type="submit" value="Filtrar" class="btn-cadastro">
+                    </form>
+                </div>
+            </form>
         </div>
         <br>
         <br>

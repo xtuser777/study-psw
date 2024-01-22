@@ -62,7 +62,13 @@ def new_flashcard(request):
         return redirect('/flashcard/new_flashcard')
     
 def delete_flashcard(request, id):
+    # TODO: Fazer validação de segurança OK
     flashcard = Flashcard.objects.get(id=id)
+    if flashcard.user != request.user:
+        messages.add_message(
+            request, constants.ERROR, 'Usuário inválido!'
+        )
+        return redirect('/flashcard/new_flashcard')
     flashcard.delete()
     messages.add_message(
         request, constants.SUCCESS, 'Flashcard deletado com sucesso!'
@@ -102,6 +108,7 @@ def start_challenge(request):
         )
 
         if flashcards.count() < int(qtd_perguntas):
+            # Tratar para escolher depois
             return redirect('/flashcard/start_challenge/')
 
         flashcards = flashcards[: int(qtd_perguntas)]
@@ -118,12 +125,29 @@ def start_challenge(request):
         return redirect(f'/flashcard/challenge/{challenge.id}')
     
 def list_challenges(request):
-    challenges = Challenge.objects.filter(user=request.user)
+    
+    # TODO: Desenvolver os status
+    # TODO: Desenvolver os filtros - OK
+    categories = Category.objects.all()
+    dificulties = Flashcard.DIFICULDADE_CHOICES
+
+    categoria = request.GET.get('categoria')
+    dificuldade = request.GET.get('dificuldade')
+
+    if categoria != "0" and dificuldade != "0":
+        challenges = Challenge.objects.filter(user=request.user).filter(dificulty=dificuldade).filter(category_id=categoria)
+    elif categoria != "0":
+        challenges = Challenge.objects.filter(user=request.user).filter(category_id=categoria)
+    elif dificuldade != "0":
+        challenges = Challenge.objects.filter(user=request.user).filter(dificulty=dificuldade)
+    else:
+        challenges = Challenge.objects.filter(user=request.user)
+
     return render(
         request,
         'list_challenges.html',
         {
-            'challenges': challenges,
+            'challenges': challenges,'categories': categories, 'dificulties': dificulties
         },
     )
 
