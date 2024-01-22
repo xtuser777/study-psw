@@ -109,6 +109,9 @@ def start_challenge(request):
 
         if flashcards.count() < int(qtd_perguntas):
             # Tratar para escolher depois
+            messages.add_message(
+                request, constants.ERROR, 'Quantidade de questões excede o número de questões disponíveis no filtro ('+flashcards.count()+')!'
+            )
             return redirect('/flashcard/start_challenge/')
 
         flashcards = flashcards[: int(qtd_perguntas)]
